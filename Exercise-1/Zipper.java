@@ -12,55 +12,54 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.zip.ZipInputStream;
 
-// WORKAROUND: jos zip-tiedostoa ei löydy, kopioi resources-hakemistosta
-// books.zip projektin juureen ja noudata alla olevia kahta ohjetta,
-// jotka myös merkitty WORKAROUND-kommentilla
+// WORKAROUND: if the zip file is not found, copy books.zip from the resources directory
+// to the project's root and follow the two instructions below,
+// also marked with WORKAROUND comments.
 
 /**
- * Luokka, joka mallintaa unzippailuja (tiivistetyn zip-paketin purku).
- * <p>
- * Idea on, että luokan olion ollessa olemassa levyllä sijaitsee myös
- * oliota varten olion luoma tilapäishakemisto. Kun olio suljetaan,
- * myös hakemisto poistetaan.
- * <p>
- * Miten käytetään? Luo olio. Luonti olettaa, että zip-tiedoston on
- * oltava olemassa. Luokan metodi 'run' aktivoi unzippauksen. Lopuksi
- * sulje olio ('close').
- * <p>
- * Vinkki: sulkeminen on helppoa Javan try-with-resources -toiminnolla.
- */
+
+A class that models unzipping (extracting a compressed zip package).
+<p>
+The idea is that while an object of the class exists, there is also a temporary directory
+created by the object on the disk. When the object is closed, the directory is also deleted.
+<p>
+How to use it? Create an object. Creation assumes that the zip file must exist.
+The class's 'run' method activates the unzipping. Finally, close the object ('close').
+<p>
+Hint: closing is easy with Java's try-with-resources feature.
+*/
 abstract public class Zipper implements AutoCloseable {
-    // zip-tiedosto purkamista varten
+    // zip-file for unzipping
     private final String zipFile;
 
-    // java-luokka, jonka paketista etsitään zip-tiedostoa
+    // java class, from which package the zip file is looked for
     private final Class<?> resolver = Main.class;
 
-    // tilapäishakemiston polku
+    // path of temp directory
     protected final Path tempDirectory;
 
     /**
-     * Merkitsee muistiin annetun zip-tiedoston ja
-     * luo tilapäishakemiston 'tempDirectory'.
+     * Records the given zip file and
+     * creates a temporary directory 'tempDirectory'.
      *
-     * @param zipFile Zip-tiedostopolku (alkuehto: oltava olemassa ja ei-null)
-     * @throws IOException Zip-tiedostoa ei löydy tai tilapäishakemistoa ei voida luoda
+     * @param zipFile Zip file path (precondition: must exist and be non-null).
+     * @throws IOException If the zip file is not found or the temporary directory cannot be created.
      */
     public Zipper(String zipFile) throws IOException {
-        // WORKAROUND: jos zip-tiedostoa ei löydy, kommentoi seuraavat 2 riviä
+        // WORKAROUND: if the zip file is not found, comment out the next two lines.
         if (resolver.getResource(zipFile) == null)
             throw new FileNotFoundException(zipFile);
 
         this.zipFile = zipFile;
 
         tempDirectory = Files.createTempDirectory("dtek0066");
-        System.out.println("Luotu tilapäishakemisto " + tempDirectory);
+        System.out.println("Created a temp directory " + tempDirectory);
     }
 
     /**
-     * Poistaa tilapäishakemiston 'tempDirectory' olion sulkemisen yhteydessä.
+     * Deletes the temporary directory 'tempDirectory' when the object is closed.
      *
-     * @throws IOException Kaikenlaisten I/O-virheiden sattuessa
+     * @throws IOException In case of any I/O errors.
      */
     @Override
     public void close() throws IOException {
@@ -71,18 +70,18 @@ abstract public class Zipper implements AutoCloseable {
                     .forEach(File::delete);
         }
 
-        System.out.println("Poistettu tilapäishakemisto " + tempDirectory);
+        System.out.println("The removed temp directory was " + tempDirectory);
     }
 
     /**
-     * Purkaa 'zipFile'-tiedoston tilapäishakemistoon 'tempDirectory'.
+     * Unzip the file 'zipFile' to the temporary directory 'tempDirectory'.
      *
-     * @throws IOException Kaikenlaisten I/O-virheiden sattuessa
+     * @throws IOException In case of any I/O errors.
      */
     private void unzip() throws IOException {
         final var destinationDir = tempDirectory.toFile();
 
-        // WORKAROUND: jos zip-tiedostoa ei löydy, vaihda seuraavaan
+        // WORKAROUND: If the zip file is not found, change to the following
         // try (final var inputStream = new FileInputStream(zipFile);
         try (final var inputStream = resolver.getResourceAsStream(zipFile);
              final var stream = new ZipInputStream(inputStream)) {
@@ -118,9 +117,9 @@ abstract public class Zipper implements AutoCloseable {
     }
 
     /**
-     * Ajaa unzippauksen ja kullekin luodulle tiedostolle käsittelijän.
+     * Executes unzipping and creates a handler for every created file.
      *
-     * @throws IOException Kaikenlaisten I/O-virheiden sattuessa
+     * @throws IOException In case of any I/O errors.
      */
     public void run() throws IOException {
         unzip();
@@ -136,33 +135,33 @@ abstract public class Zipper implements AutoCloseable {
     }
 
     /**
-     * Käsittelijän luonti.
+     * Creation of the Handler.
      *
-     * @param file Käsiteltävä tiedosto (alkuehto: oltava olemassa ja ei-null)
-     * @return Käsittelijä
+     * @param file The file to be handerl (precondition: must exist and be non-null)
+     * @return Handler
      */
     protected abstract Handler createHandler(Path file);
 
     /**
-     * Yksittäisen tiedoston käsittelijä, jonka vastuulla on käsitellä
-     * yksittäinen tiedosto.
+     * A handler for a single file, responsible for processing
+     * an individual file.
      */
     protected abstract static class Handler {
         public final Path file;
 
         /**
-         * Käsittelijän alustus.
+         * Initializes the handler.
          *
-         * @param file Käsiteltävä tiedosto (alkuehto: oltava olemassa ja ei-null)
+         * @param file The file to be handled (precondition: must exist and be non-null)
          */
         public Handler(Path file) {
             this.file = file;
         }
 
         /**
-         * Käsittelee tiedoston.
+         * Processes the file.
          *
-         * @throws IOException Kaikenlaisten I/O-virheiden sattuessa
+         * @throws IOException In case of any I/O errors.
          */
         abstract public void handle() throws IOException;
     }
