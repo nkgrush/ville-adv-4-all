@@ -9,7 +9,7 @@ public class Exercise1 {
         try (var zipper = new TestZipper("books.zip")) {
             zipper.run();
         } catch (IOException e) {
-            System.err.println("A failure occurred");
+            System.err.println("Execution failed!");
             e.printStackTrace();
         }
     }
