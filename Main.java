@@ -7,7 +7,7 @@ import fi.utu.tech.ooj.exercise4.exercise4.Exercise4;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        System.out.println("Advanced Course in Object-Oriented Programming, Exercises of Part 4");
+        System.out.println("Advanced Course in Object-Oriented Programming, Part 4 Exercises");
 
         new Teht1();
         new Teht2();
