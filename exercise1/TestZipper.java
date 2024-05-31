@@ -36,7 +36,7 @@ class TestZipper extends Zipper {
                                 Originally was fetched from %s.
                                 The founded file is %s.
                                 The file contains %d lines.
-                                The file contians %d words.
+                                The file contains %d words.
                                 Possible title of the work: %s
                                 
                                 """,
