@@ -26,7 +26,7 @@ class Crow extends Bird {
     }
 }
 
-public class Teht3 {
+public class Exercise3 {
     public Teht3() {
         System.out.println("Exercise 3");
 

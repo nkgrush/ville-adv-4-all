@@ -9,9 +9,9 @@ public class Main {
     public static void main(String[] args) throws Exception {
         System.out.println("Advanced Course in Object-Oriented Programming, Part 4 Exercises");
 
-        new Teht1();
-        new Teht2();
-        new Teht3();
-        new Teht4();
+        new Exercise1();
+        new Exercise2();
+        new Exercise3();
+        new Exercise4();
     }
 }
