@@ -5,4 +5,4 @@ Hello!
 Here are the materials required to complete the exercises of Part 4 - Object Properties and Data Structure.
 
 
-**NOTE: requires jdk 21!**
+**NOTE: requires at least JDK 21!**
