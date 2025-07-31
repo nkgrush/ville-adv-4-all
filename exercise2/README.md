@@ -7,7 +7,7 @@ Use the implementation provided in Exercise 1. The folder for exercise2 also con
 
 ### A) Define and implement a class Book that represents a book, such that the class models a file representing the book (there are many ways to do this), the book's name (the entire first line of the file, e.g., "The Project Gutenberg eBook of Moby Dick; Or, The Whale"), and the number of lines in the book. The class only needs to be defined to the extent that it is usable in the subsequent parts of the task B--E.
 
-[Book implemented in Exercise2 file](Exercise2.java)
+[Book implemented in TestZipper2 file](TestZipper2.java)
 
 
 ### B) Implement a natural order for the books using the basic features of objects. The natural order of books is in ascending alphabetical order of the book's name. Demonstrate this order by printing the books in their natural order. Use Java's standard library sorting routine for sorting.
