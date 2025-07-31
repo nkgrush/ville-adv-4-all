@@ -1,8 +1,11 @@
 # Advanced Course in Object Oriented Programming - Part 4
 
-Hello!
+This repository contains all 4 exercises for the Part 4 completed.
 
-Here are the materials required to complete the exercises of Part 4 - Object Properties and Data Structure.
+- Links to README.md files for each exercise:
+  - [Exercise 1](./exercise1/README.md)
+  - [Exercise 2](./exercise2/README.md)
+  - [Exercise 3](./exercise3/README.md)
+  - [Exercise 4](./exercise4/README.md)
 
-
-**NOTE: requires at least JDK 21!**
+The project Main.java file can be compiled and run by default in idea-ce to get output for all exercises.
